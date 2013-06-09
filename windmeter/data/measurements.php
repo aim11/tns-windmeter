@@ -1,8 +1,9 @@
 <?php
 
-include_once('config.php');
-include_once('db.php');
-include_once('util.php');
+include_once('../inc/config.php');
+include_once('../inc/db.php');
+include_once('../inc/util.php');
+include_once('../inc/auth.php');
 
 $method = $_SERVER['REQUEST_METHOD'];
 $request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
@@ -65,6 +66,11 @@ function get($request) {
 }
 
 function post($request) {
+	
+	/* check authentication */
+	if(!checkBasicAuth()){
+		sendBasicAuthRequired();
+	}
 	
 	$station_id_param = $_POST['station_id'];
 	
