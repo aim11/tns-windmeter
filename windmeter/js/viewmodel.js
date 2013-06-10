@@ -18,7 +18,7 @@ function MainPageViewModel() {
 	self.beginUpdates = function () {
 		
 		// sequentially load measurement json data
-		setInterval(function(){			
+		setInterval(function(){		
 			self.loadFromServer();
 		}, updateInterval);		
 	}
@@ -36,6 +36,12 @@ function MainPageViewModel() {
 			
 			self.weatherStations(stationArray);
 			
+			// update map
+			map.clearStations();
+			for(var i = 0; i < self.weatherStations().length; i++){
+				map.addStation(self.weatherStations()[i]);
+			}
+			
 		});
 	};	
 }
@@ -46,7 +52,6 @@ function WeatherStation() {
 	var self = this;
 	
 	self.station_id = null;
-	self.name = null;
 	self.description = null;
 	self.location_name = null;
 	self.location_coordinates = null;
@@ -57,7 +62,6 @@ function WeatherStation() {
 	self.importJSON = function(json) {
 		
 		self.station_id = json.station_id;
-		self.name = json.name;
 		self.description = json.description;
 		self.location_name = json.location_name;
 		self.location_coordinates = json.location_coordinates;
@@ -73,6 +77,16 @@ function WeatherStation() {
 		return self;
 	};
 	
+	self.getMarkerContent = function() {
+		var content = "";
+		content += "<div class='wind-marker wind-";
+		content += Math.round(self.currentMeasurement()['speed'])
+		content += "-"		
+		content += self.currentMeasurement().getDirectionStrings()[0];		
+		content += "'></div>";
+		return content;
+	};
+	
 	
 }
 
@@ -81,10 +95,10 @@ function Measurement() {
 	// self reference to be used in function closure scopes
 	var self = this;
 	
-	self.speed = null;
-	self.gust = null;
-	self.direction = null;
-	self.measurement_time = null;
+	self.speed = "";
+	self.gust = "";
+	self.direction = "";
+	self.measurement_time = "";
 	
 	self.importJSON = function(json) {
 		
@@ -94,5 +108,46 @@ function Measurement() {
 		self.measurement_time = json.measurement_time;
 	
 		return self;
+	};	
+	
+	self.getDirectionStrings = function () {
+		
+		var currentDirection = self.direction;
+		
+		var arr = [];
+		if( currentDirection > 337.5 && currentDirection <= 22.5 ) {
+			arr[0] = "N";
+			arr[1] = "Pohjoistuulta";
+		}
+		else if ( currentDirection > 22.5 && currentDirection <= 67.5 ) {
+			arr[0] = "NE";
+			arr[1] = "Koillistuulta";
+		}
+		else if ( currentDirection > 67.5 && currentDirection <= 112.5 ) {
+			arr[0] = "E";
+			arr[1] = "Itätuulta";
+		}
+		else if ( currentDirection > 112.5 && currentDirection <= 157.5 ) {
+			arr[0] = "SE";
+			arr[1] = "Kaakkoistuulta";
+		}
+		else if ( currentDirection > 157.5 && currentDirection <= 202.5 ) {
+			arr[0] = "S";
+			arr[1] = "Etelätuulta";
+		}
+		else if ( currentDirection > 202.5 && currentDirection <= 247.5 ) {
+			arr[0] = "SW";
+			arr[1] = "Lounastuulta";
+		}
+		else if ( currentDirection > 247.5 && currentDirection <= 292.5 ) {
+			arr[0] = "W";
+			arr[1] = "Länsituulta";
+		}
+		else if ( currentDirection > 292.5 && currentDirection <= 337.5 ) {
+			arr[0] = "NW";
+			arr[1] = "Luoteistuulta";
+		}		
+		
+		return arr;
 	};	
 }

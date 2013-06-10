@@ -17,6 +17,11 @@ function db_connect() {
 		die( 'Could not connect: ' . mysqli_connect_error() );
 	}	
 	
+	/* change character set to utf8 */
+	if (!mysqli_set_charset($con, "utf8")) {
+		printf("Error loading character set utf8: %s\n", $mysqli->error);
+	}
+	
 	return $con;
 }
 

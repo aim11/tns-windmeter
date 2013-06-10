@@ -1,2 +1,55 @@
 @CHARSET "UTF-8";
 
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-image: url('../img/background.png');
+	background-repeat: repeat;
+}
+
+.centered {
+	margin: auto;
+}
+
+#main {
+	width: 650px;
+}
+
+#map {
+	height: 300px;
+	width: 100%;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+	margin-bottom: 10px;	
+}
+
+#weather_stations {
+	background: #fff;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 0 rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	padding-right: 15px;		
+}
+
+.location-name {
+	font-size: 20px;
+}
+.measurement-time {
+	font-size: 11px;
+	color: graytext;
+}
+.wind-measurement {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+div.wind-marker {
+	width: 30px;
+	height: 30px;
+	background-image: url('../img/wind-symbols.png');
+	background-repeat: no-repeat;
+}
+
