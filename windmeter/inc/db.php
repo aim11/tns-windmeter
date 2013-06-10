@@ -26,18 +26,17 @@ function db_disconnect($con) {
 
 function db_addStationInfo($con, $station_info_arr) {
 
-	$name = mysqli_real_escape_string($con, $station_info_arr['name']);
 	$description = mysqli_real_escape_string($con, $station_info_arr['description']);
 	$location_name = mysqli_real_escape_string($con, $station_info_arr['location_name']);
 	$location_coordinates = mysqli_real_escape_string($con, $station_info_arr['location_coordinates']);
 	
-	$query = 'INSERT INTO weather_station(name, description, loc_name, loc_coordinates) VALUES(?,?,?,?)';
+	$query = 'INSERT INTO weather_station(description, loc_name, loc_coordinates) VALUES(?,?,?)';
 	
 	
 	if ($stmt = mysqli_prepare($con, $query)) {
 	
 		/* pass parameters to query */
-		mysqli_stmt_bind_param($stmt, "ssss", $name, $description, $location_name, $location_coordinates);
+		mysqli_stmt_bind_param($stmt, "sss", $description, $location_name, $location_coordinates);
 	
 		/* run the query on the database */
 		mysqli_stmt_execute($stmt);
@@ -68,7 +67,7 @@ function db_getAllStationInfo($con) {
 
 	$stations = array();
 
-	$query = 'SELECT id, name, description, loc_name, loc_coordinates FROM weather_station';
+	$query = 'SELECT id, description, loc_name, loc_coordinates FROM weather_station';
 
 	if ($stmt = mysqli_prepare($con, $query)) {
 
@@ -76,14 +75,13 @@ function db_getAllStationInfo($con) {
 		mysqli_stmt_execute($stmt);
 
 		/* assign variable for each column to store results in */
-		mysqli_stmt_bind_result($stmt, $id, $name, $description, $location_name, $location_coordinates);
+		mysqli_stmt_bind_result($stmt, $id, $description, $location_name, $location_coordinates);
 
 		/* fetch values */
 		while (mysqli_stmt_fetch($stmt)) {
 
 			$station_info = array();
 			$station_info['station_id'] = $id;
-			$station_info['name'] = $name;
 			$station_info['description'] = $description;
 			$station_info['location_name'] = $location_name;
 			$station_info['location_coordinates'] = $location_coordinates;
@@ -103,7 +101,7 @@ function db_getStationInfo($con, $station_id_param) {
 	
 	$station_info = array();
 	
-	$query = 'SELECT name, description, loc_name, loc_coordinates FROM weather_station WHERE id=?';
+	$query = 'SELECT description, loc_name, loc_coordinates FROM weather_station WHERE id=?';
 
 	if ($stmt = mysqli_prepare($con, $query)) {
 	
@@ -114,12 +112,11 @@ function db_getStationInfo($con, $station_id_param) {
 		mysqli_stmt_execute($stmt);
 	
 		/* assign variable for each column to store results in */
-		mysqli_stmt_bind_result($stmt, $name, $description, $location_name, $location_coordinates);
+		mysqli_stmt_bind_result($stmt, $description, $location_name, $location_coordinates);
 	
 		/* fetch values */
 		if (mysqli_stmt_fetch($stmt)) {
 			
-			$station_info['name'] = $name;
 			$station_info['description'] = $description;
 			$station_info['location_name'] = $location_name;
 			$station_info['location_coordinates'] = $location_coordinates;

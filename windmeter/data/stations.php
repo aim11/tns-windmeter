@@ -39,16 +39,11 @@ function post($request) {
 	}
 	
 	$station_info = array();
-	$station_info['name'] = $_POST['name'];
 	$station_info['description'] = $_POST['description'];
 	$station_info['location_name'] = $_POST['location_name'];
 	$station_info['location_coordinates'] = $_POST['location_coordinates'];
 	
 	/* value checks */
-	if (!$station_info['name']) {
-		header(' ', true, 400);
-		exit("Parameter 'name' required");		
-	}
 	if (!$station_info['description']) {
 		header(' ', true, 400);
 		exit("Parameter 'description' required");
